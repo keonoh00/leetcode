@@ -28,21 +28,36 @@ s consists of English letters, digits, symbols and spaces.
 """
 
 
-# Brute Force Solution
 class Solution:
+    # Brute Force Solution
+    # def lengthOfLongestSubstring(self, s: str) -> int:
+    #     longest = set()
+    #     for x in range(len(s)):
+    #         char_collection = set()
+    #         for y in range(x, len(s)):
+    #             if s[y] in char_collection:
+    #                 break
+
+    #             char_collection.add(s[y])
+    #         if len(char_collection) > len(longest):
+    #             longest = char_collection
+
+    #     return len(longest)
+
+    # Window Slide Solution
     def lengthOfLongestSubstring(self, s: str) -> int:
-        longest = set()
-        for x in range(len(s)):
-            char_collection = set()
-            for y in range(x, len(s)):
-                if s[y] in char_collection:
-                    break
+        seen = set()
+        left = 0
+        max_len = 0
 
-                char_collection.add(s[y])
-            if len(char_collection) > len(longest):
-                longest = char_collection
+        for right in range(len(s)):
+            while s[right] in seen:
+                seen.remove(s[left])
+                left += 1
+            seen.add(s[right])
+            max_len = max(max_len, right - left + 1)
 
-        return len(longest)
+        return max_len
 
 
 sol = Solution()
