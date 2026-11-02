@@ -2,9 +2,9 @@
 
 Instructions for AI assistants working in this repo.
 
-The user is practicing for a live DS&A interview on Friday 2 October 2026. Each file
-is one LeetCode problem: the statement, a `Solution` stub, and LeetCode's examples
-as tests. Run one with:
+The user practices LeetCode daily for DS&A interviews. Each file is one LeetCode
+problem: the statement, a `Solution` stub, and LeetCode's examples as tests. Run
+one with:
 
 ```bash
 uv run problems/<problem>.py

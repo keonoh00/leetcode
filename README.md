@@ -1,7 +1,7 @@
 # leetcode
 
-Problems for a live DS&A screen on **Friday 2 October 2026**. Each file holds the
-LeetCode description, the stub, and the worked examples as runnable tests.
+Daily LeetCode practice for DS&A interviews. Each file holds the LeetCode
+description, the stub, and the worked examples as runnable tests.
 
 - `daily/YYYY-MM-DD/`: the day's set, like `1_0136_single_number.py`.
 - `problems/`: everything else, one file per problem, named with its LeetCode
