@@ -12,7 +12,9 @@ uv run problems/<problem>.py
 
 There are two folders:
 
-- `daily/YYYY-MM-DD/` holds that day's set. Problems are moved here from `problems/`.
+- `daily/YYYY-MM-DD/` holds that day's set. Each file is named by its place in the
+  set, then the LeetCode number, like `1_0136_single_number.py`. Problems are moved
+  here from `problems/`.
 - `problems/` holds everything else in one flat folder, named after the LeetCode
   number, padded to 4 digits, and the title in snake_case, like `0001_two_sum.py`.
   A second file for the same problem keeps that name and adds a suffix: `_resolve`
