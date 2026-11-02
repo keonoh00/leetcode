@@ -14,9 +14,10 @@ There are two folders:
 
 - `daily/YYYY-MM-DD/` holds that day's set. Problems are moved here from `problems/`.
 - `problems/` holds everything else in one flat folder, named after the LeetCode
-  title in snake_case, like `two_sum.py`. A second file for the same problem keeps
-  that name and adds a suffix: `_resolve` for a re-solve, or the approach for
-  another approach, like `middle_of_the_linked_list_slow_fast.py`.
+  number, padded to 4 digits, and the title in snake_case, like `0001_two_sum.py`.
+  A second file for the same problem keeps that name and adds a suffix: `_resolve`
+  for a re-solve, or the approach for another approach, like
+  `0876_middle_of_the_linked_list_slow_fast.py`.
 
 Keep things simple. Don't add tooling such as progress tracking, timers or prompts
 unless the user asks for it.
