@@ -34,7 +34,22 @@ Constraints:
 
 class Solution:
     def wordPattern(self, pattern: str, s: str) -> bool:
-        raise NotImplementedError
+        dictionary = dict()
+
+        s_list = s.split(" ")
+        converted_s = ""
+        if len(s_list) != len(pattern):
+            return False
+
+        for word, pat in zip(s_list, pattern):
+            if word not in dictionary:
+                if pat in dictionary.values():
+                    return False
+                else:
+                    dictionary[word] = pat
+            converted_s += dictionary[word]
+
+        return converted_s == pattern
 
 
 CASES = [
