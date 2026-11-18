@@ -27,7 +27,16 @@ Constraints:
 
 class Solution:
     def frequencySort(self, nums: list[int]) -> list[int]:
-        raise NotImplementedError
+        from collections import defaultdict
+
+        dictionary = defaultdict(int)
+        for num in nums:
+            dictionary[num] += 1
+
+        def sortKey(num):
+            return (dictionary[num], -num)
+
+        return sorted(nums, key=sortKey)
 
 
 CASES = [
