@@ -43,7 +43,16 @@ Constraints:
 
 class Solution:
     def numUniqueEmails(self, emails: list[str]) -> int:
-        raise NotImplementedError
+        users = set()
+        for email in emails:
+            username, domain = email.split("@")
+
+            username_filtered = username.split("+")[0].split(".")
+            username_filtered = "".join(username_filtered) + "@" + domain
+
+            users.add(username_filtered)
+
+        return len(users)
 
 
 CASES = [
