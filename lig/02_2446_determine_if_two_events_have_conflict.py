@@ -36,7 +36,20 @@ Constraints:
 
 class Solution:
     def haveConflict(self, event1: list[str], event2: list[str]) -> bool:
-        raise NotImplementedError
+        def toMinutes(time: str) -> int:
+            hour, minute = time.split(":")
+            return int(hour) * 60 + int(minute)
+
+        event1StartInInt = toMinutes(event1[0])
+        event1EndInInt = toMinutes(event1[1])
+        event2StartInInt = toMinutes(event2[0])
+        event2EndInInt = toMinutes(event2[1])
+
+        return (
+            event1EndInInt >= event2StartInInt and event1StartInInt <= event2StartInInt
+        ) or (
+            event2EndInInt >= event1StartInInt and event1StartInInt >= event2StartInInt
+        )
 
 
 CASES = [
