@@ -24,7 +24,37 @@ Constraints:
 
 class Solution:
     def dayOfTheWeek(self, day: int, month: int, year: int) -> str:
-        raise NotImplementedError
+        week = [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+        ]
+        monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+        def isLeap(y: int) -> bool:
+            if y % 400 == 0:
+                return True
+            if y % 100 == 0:
+                return False
+            return y % 4 == 0
+
+        days = 0
+        for y in range(1971, year):
+            if isLeap(y):
+                days += 366
+            else:
+                days += 365
+        for m in range(month - 1):
+            days += monthDays[m]
+        if month > 2 and isLeap(year):
+            days += 1
+        days += day - 1
+
+        return week[(days + 4) % 7]
 
 
 CASES = [
