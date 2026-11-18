@@ -23,7 +23,26 @@ Constraints:
 
 class Solution:
     def convertTime(self, current: str, correct: str) -> int:
-        raise NotImplementedError
+        currentHour, currentMin = current.split(":")
+        correctHour, correctMin = correct.split(":")
+
+        currentInMin = int(currentHour) * 60 + int(currentMin)
+        correctInMin = int(correctHour) * 60 + int(correctMin)
+
+        count = 0
+
+        while currentInMin < correctInMin:
+            if currentInMin + 60 <= correctInMin:
+                currentInMin += 60
+            elif currentInMin + 15 <= correctInMin:
+                currentInMin += 15
+            elif currentInMin + 5 <= correctInMin:
+                currentInMin += 5
+            else:
+                currentInMin += 1
+            count += 1
+
+        return count
 
 
 CASES = [
