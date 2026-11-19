@@ -6,9 +6,63 @@ Before writing code, take about two minutes and say three things out loud:
 2. **The brute force:** what does it keep repeating?
 3. **The clue in the wording:** which technique does it point to?
 
+When a problem looks unfamiliar, start from Step 0, not Step 1. Writing out the rules
+as comments is something you can always do first, so you never start from an empty
+editor.
+
+---
+
+## Step 0: Rule problems (most of the Jobda test)
+
+Most stages are rules to turn into code, not an algorithm to pick. Early stages have
+small inputs, so the straightforward version passes. Only the scale stage needs
+Steps 1–3.
+
+1. Read the return value first. What type is it, in what order, and what comes back
+   when nothing matches?
+2. Write the rules as comments, one per line. Include the tie-breaks and edge rules
+   ("if equal…", "if missing…").
+3. Pick the data. Use a tuple or dict per record, a dict keyed by id, or a sorted
+   list of events.
+4. One function per rule. `solution` only parses, loops and calls them, so the next
+   stage changes one function.
+5. Work the first example by hand, and `print` your intermediate values to compare.
+6. Try edge cases: empty input, one item, equal times, the boundary minute, the last
+   day.
+7. Only then think about n. If the efficiency tests fail, use Step 1.
+
+```python
+def solution(records):
+    events = sorted(parse(r) for r in records)  # strings -> (time, id, kind); tuple order = tie-break
+    state = {}                                  # id -> what the rules track
+    for time, uid, kind in events:
+        apply_rule(state, time, uid, kind)      # one rule = one function
+    return build_answer(state)                  # exact output format and order
+```
+
+Python for parsing and simulation:
+
+```python
+h, m = map(int, "09:05".split(":")); minutes = h * 60 + m
+f"{minutes // 60:02d}:{minutes % 60:02d}"          # back to "HH:MM"
+y, mo, d = map(int, "2026.11.22".split("."))
+days = y * 12 * 28 + (mo - 1) * 28 + d              # when every month has 28 days
+from datetime import date, timedelta                 # real calendars
+(date(2026, 11, 22) - date(2026, 1, 1)).days
+date(2026, 11, 22).weekday()                         # Monday = 0
+from collections import defaultdict, Counter, deque
+total = defaultdict(int); groups = defaultdict(list)
+sorted(rows, key=lambda r: (-r[1], r[0]))            # score high to low, then name A to Z
+-(-a // b)                                           # ceiling for positive ints
+from itertools import combinations, permutations, product
+from bisect import bisect_left, bisect_right         # count of x in sorted a: bisect_right(a, x) - bisect_left(a, x)
+```
+
 ---
 
 ## Step 1: How big is n?
+
+Python does roughly 10⁷ simple steps per second. If n² is 10¹⁰, it won't pass.
 
 Find your n on the left, rounding up: n ≤ 10⁴ uses the 10⁵ row. Everything further
 down the table is faster, so it also works.
@@ -257,6 +311,33 @@ def bfs_steps(start, goal):
     return -1
 ```
 
+### Dijkstra
+- **Clue:** the shortest path in a graph whose edges have costs
+- **How:** pop the closest node from a heap, then try each of its edges
+
+```python
+import heapq
+from collections import defaultdict
+from math import inf
+
+def dijkstra(edges, start):
+    graph = defaultdict(list)
+    for u, v, cost in edges:
+        graph[u].append((v, cost))
+        graph[v].append((u, cost))        # drop this line if one-way
+    dist = {start: 0}
+    heap = [(0, start)]
+    while heap:
+        d, u = heapq.heappop(heap)
+        if d > dist.get(u, inf):
+            continue                      # an old, longer entry
+        for v, cost in graph[u]:
+            if d + cost < dist.get(v, inf):
+                dist[v] = d + cost
+                heapq.heappush(heap, (d + cost, v))
+    return dist
+```
+
 ### Tree recursion
 - **Clue:** any binary tree
 - **How:** solve for the left and right subtrees, then combine them. For level by
@@ -268,6 +349,30 @@ def max_depth(node):
     if not node:
         return 0
     return 1 + max(max_depth(node.left), max_depth(node.right))
+```
+
+### Backtracking
+- **Clue:** every subset or every order, with n ≤ 20
+- **How:** add a choice, recurse, then undo it and try the next choice
+
+Every subset that adds up to a target, with positive numbers:
+
+```python
+def subsets_with_sum(nums, target):
+    result = []
+
+    def backtrack(start, path, total):
+        if total == target:
+            result.append(path[:])
+        for i in range(start, len(nums)):
+            if total + nums[i] > target:
+                continue                  # too big: skip this number
+            path.append(nums[i])
+            backtrack(i + 1, path, total + nums[i])
+            path.pop()                    # undo, then try the next choice
+
+    backtrack(0, [], 0)
+    return result
 ```
 
 ### Sort, then merge
