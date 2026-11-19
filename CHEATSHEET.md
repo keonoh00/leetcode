@@ -165,7 +165,6 @@ def has_duplicate(nums):
 **문제.** 정수 배열 `nums`와 정수 `k`가 주어진다. 합이 `k`인 subarray의 개수를
 반환한다. `nums`에는 음수도 있을 수 있다.
 
-- `nums = [1, 1, 1], k = 2` → `2`. `[1, 1]`이 index 0–1과 1–2, 두 번 있다.
 - `nums = [1, 2, 3], k = 3` → `2`. `[1, 2]`와 `[3]`이다.
 
 **풀이.**
@@ -215,7 +214,6 @@ def subarray_sum(nums, k):
 
 - `nums = [1, 12, -5, -6, 50, 3], k = 4` → `12.75`. `[12, -5, -6, 50]`의 합 51을
   4로 나눈 값이다.
-- `nums = [5], k = 1` → `5.0`.
 
 **풀이.**
 1. 길이가 모두 k로 같으니, 평균이 가장 큰 구간은 합이 가장 큰 구간이다. 합만
@@ -306,7 +304,6 @@ def search(nums, target):
 불량인 버전을 반환한다.
 
 - `n = 5`, 처음 불량이 4 → `4`. 버전 1–3은 정상, 4–5는 불량이다.
-- `n = 1`, 처음 불량이 1 → `1`.
 
 **풀이.**
 1. 버전을 늘어놓으면 `정상 정상 정상 불량 불량`처럼 앞은 모두 정상, 뒤는 모두
@@ -352,7 +349,6 @@ def first_bad_version(n):
 같은 종류의 닫는 괄호로, 올바른 순서로 닫히면 `True`를 반환한다. 닫는 괄호마다 짝이
 되는 여는 괄호가 있어야 한다.
 
-- `s = "()[]{}"` → `True`.
 - `s = "([])"` → `True`. 안쪽 `[]`가 먼저 닫히고, 그다음 `()`가 닫힌다.
 - `s = "([)]"` → `False`. `[`가 마지막에 열렸는데 `)`가 먼저 왔다.
 
@@ -403,7 +399,6 @@ def is_valid(s):
 
 - `k = 3, nums = [4, 5, 8, 2]`에서 `add(3)` → `4`. 수는 2, 3, 4, 5, 8이고, 큰
   순서로 8, 5, 4다.
-- 이어서 `add(5)` → `5`, `add(10)` → `5`, `add(9)` → `8`, `add(4)` → `8`.
 
 **풀이.**
 1. k번째로 큰 수를 알려면 가장 큰 k개만 있으면 된다. 그보다 작은 수는 앞으로도 답이
@@ -632,7 +627,6 @@ node 수(depth)를 반환한다. LeetCode는 tree를 위에서부터 한 줄씩 
 
 - `root = [3, 9, 20, null, null, 15, 7]` → `3`. 아래 tree에서 3 → 20 → 15
   (또는 7)다.
-- `root = []` → `0`.
 
 ```text
     3
@@ -675,7 +669,6 @@ def max_depth(node):
 
 - `nums = [1, 2, 3]` → `[[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3], [3]]`.
   2³ = 8개다.
-- `nums = [0]` → `[[], [0]]`.
 
 **풀이.**
 1. `path`는 지금까지 고른 수다. `backtrack(start)`는 지금의 `path`를 결과에 넣고,
@@ -821,25 +814,25 @@ def has_cycle(head):
   3. Base case는 무엇인가? `dp[0]` 같은 것.
   4. 답은 어디 있나? `dp[n]`인가, `max(dp)`인가?
 - **왜 빠른가:** 그냥 recursion은 같은 작은 문제를 계속 다시 푼다 (Climbing Stairs는
-  O(2ⁿ)). 답을 표에 저장하면 작은 문제마다 한 번만 푼다 (O(n)).
+  O(2ⁿ)). 답을 표에 저장하면 작은 문제마다 한 번만 푼다 (O(n)). Recursion에
+  `@cache`를 붙여도(top-down) 같은 일을 한다.
 
-| 유형 | 예시 문제 | `dp`의 뜻 | 점화식 |
-|---|---|---|---|
-| 한 줄 | Climbing Stairs | `dp[i]` = i번째 계단까지 오는 방법 수 | `dp[i] = dp[i - 1] + dp[i - 2]` |
-| 한 줄 | House Robber | `dp[i]` = 0번부터 i번 집까지에서 털 수 있는 최대 | `dp[i] = max(dp[i - 1], dp[i - 2] + nums[i])` |
-| i에서 끝남 | LIS | `dp[i]` = 정확히 i에서 끝나는 LIS 길이 | `nums[j] < nums[i]`인 j마다 `dp[j] + 1` 중 최대 |
-| 문자열 자르기 | Word Break | `dp[i]` = `s[:i]`를 단어로 나눌 수 있나 | `dp[j]`가 True이고 `s[j:i]`가 단어인 j가 있나 |
-| 합 만들기 | Combination Sum IV | `dp[a]` = 합 a를 만드는 방법 수 | num마다 `dp[a - num]`을 더한다 |
-| 한 번씩만 | Partition Equal Subset Sum | `dp[s]` = 합 s를 만들 수 있나 | `dp[s] = dp[s] or dp[s - num]`, s는 큰 쪽부터 |
-| Grid | Unique Paths | `dp[r][c]` = (r, c)까지 경로 수 | `dp[r][c] = dp[r - 1][c] + dp[r][c - 1]` |
-| 두 문자열 | LCS | `dp[i][j]` = `a[:i]`와 `b[:j]`의 LCS 길이 | 마지막 글자가 같으면 `dp[i - 1][j - 1] + 1`, 다르면 `max(dp[i - 1][j], dp[i][j - 1])` |
+DP는 `dp`가 무엇을 뜻하는지에 따라 유형이 나뉜다. 유형마다 예시는 하나만 두고, 같은
+유형의 문제는 옆에 이름만 적었다.
+
+| 유형 | 예시 문제 | 같은 유형 | `dp`의 뜻 | 점화식 |
+|---|---|---|---|---|
+| 한 줄 | Climbing Stairs | House Robber, Min Cost Climbing Stairs, Combination Sum IV | `dp[i]` = i번째 계단까지 오는 방법 수 | `dp[i] = dp[i - 1] + dp[i - 2]` |
+| i에서 끝남 | LIS | Word Break | `dp[i]` = 정확히 i에서 끝나는 LIS 길이 | `nums[j] < nums[i]`인 j마다 `dp[j] + 1` 중 최대 |
+| 한 번씩만 | Partition Equal Subset Sum | | `dp[s]` = 합 s를 만들 수 있나 | `dp[s] = dp[s] or dp[s - num]`, s는 큰 쪽부터 |
+| Grid | Unique Paths | Minimum Path Sum | `dp[r][c]` = (r, c)까지 경로 수 | `dp[r][c] = dp[r - 1][c] + dp[r][c - 1]` |
+| 두 문자열 | LCS | Edit Distance | `dp[i][j]` = `a[:i]`와 `b[:j]`의 LCS 길이 | 마지막 글자가 같으면 `dp[i - 1][j - 1] + 1`, 다르면 `max(dp[i - 1][j], dp[i][j - 1])` |
 
 #### 한 줄: Climbing Stairs (70, Easy)
 
 **문제.** 계단이 `n`칸 있다. 한 번에 1칸이나 2칸을 오를 수 있다. 꼭대기까지 오르는
 서로 다른 방법의 수를 반환한다.
 
-- `n = 2` → `2`. 1 + 1, 2.
 - `n = 3` → `3`. 1 + 1 + 1, 1 + 2, 2 + 1.
 
 **풀이.**
@@ -863,60 +856,6 @@ def climb_stairs(n):
 ```
 
 시간 O(n), 공간 O(n).
-
-같은 문제를 top-down으로: 그냥 recursion을 쓰고 `@cache`를 붙인다. `ways(5)`는
-`ways(4)`와 `ways(3)`을 부르고, `ways(4)`도 `ways(3)`을 부른다. `@cache`가 없으면 같은
-계산을 계속 반복해 O(2ⁿ)이고, 있으면 두 번째부터는 저장된 답을 돌려줘서 O(n)이다.
-파이썬은 recursion이 약 1,000번 깊어지면 멈추니, n이 크면 위의 표로 쓴다.
-
-```python
-from functools import cache
-
-def climb_stairs(n):
-    @cache
-    def ways(i):  # i번째 계단까지 오는 방법 수
-        if i <= 1:
-            return 1
-        return ways(i - 1) + ways(i - 2)
-
-    return ways(n)
-```
-
-#### 한 줄, 변수 두 개로: House Robber (198, Medium)
-
-**문제.** 한 줄로 선 집들에 돈이 있다. `nums[i]`는 i번째 집의 돈이다. 바로 옆 두 집을
-같은 밤에 털면 경보가 울린다. 경보 없이 털 수 있는 돈의 최댓값을 반환한다.
-
-- `nums = [1, 2, 3, 1]` → `4`. 1 + 3.
-- `nums = [2, 7, 9, 3, 1]` → `12`. 2 + 9 + 1.
-
-**풀이.**
-1. `dp[i]` = 0번부터 i번 집까지에서 털 수 있는 최댓값.
-2. i번 집을 털지 않으면 `dp[i - 1]`. 털면 i - 1번 집은 못 터니 `dp[i - 2] + nums[i]`.
-   둘 중 큰 것.
-3. `dp[i]`는 바로 앞 두 값만 쓰니 list 대신 `prev2`(= `dp[i - 2]`)와
-   `prev1`(= `dp[i - 1]`) 두 변수면 된다. 처음에는 둘 다 0.
-4. 답은 마지막 `prev1`.
-
-`nums = [2, 7, 9, 3, 1]`일 때:
-
-| num | 건너뛰기 (`prev1`) | 털기 (`prev2 + num`) | 새 `prev1` |
-|---|---|---|---|
-| 2 | 0 | 0 + 2 = 2 | 2 |
-| 7 | 2 | 0 + 7 = 7 | 7 |
-| 9 | 7 | 2 + 9 = 11 | 11 |
-| 3 | 11 | 7 + 3 = 10 | 11 |
-| 1 | 11 | 11 + 1 = 12 | 12 |
-
-```python
-def rob(nums):
-    prev2 = prev1 = 0  # 두 집 전까지의 최선, 한 집 전까지의 최선
-    for num in nums:
-        prev2, prev1 = prev1, max(prev1, prev2 + num)  # 이 집을 건너뛰거나, 털거나
-    return prev1
-```
-
-시간 O(n), 공간 O(1).
 
 #### i에서 끝남: Longest Increasing Subsequence (300, Medium)
 
@@ -952,77 +891,6 @@ def length_of_lis(nums):
 ```
 
 시간 O(n²), 공간 O(n).
-
-#### 문자열 자르기: Word Break (139, Medium)
-
-**문제.** 문자열 `s`와 단어 list `word_dict`가 주어진다. `s`를 사전에 있는 단어로만
-빈틈없이 나눌 수 있으면 `True`를 반환한다. 같은 단어를 여러 번 써도 된다.
-
-- `s = "leetcode", word_dict = ["leet", "code"]` → `True`. "leet" + "code".
-- `s = "applepenapple", word_dict = ["apple", "pen"]` → `True`. "apple"을 두 번
-  쓴다.
-- `s = "catsandog", word_dict = ["cats", "dog", "sand", "and", "cat"]` → `False`.
-
-**풀이.**
-1. `dp[i]` = 앞의 i글자 `s[:i]`를 단어로 나눌 수 있나.
-2. `s[:i]`의 마지막 단어가 `s[j:i]`라면, 그 앞 `s[:j]`도 나눌 수 있어야 한다. 그런
-   j가 하나라도 있으면 `dp[i] = True`.
-3. Base case: `dp[0] = True` (빈 문자열).
-4. 답은 `dp[len(s)]`.
-
-`s = "leetcode"`일 때 `True`가 되는 자리는 둘뿐이다:
-- `dp[4]`: `dp[0]`이 True이고 `s[0:4] = "leet"`가 단어.
-- `dp[8]`: `dp[4]`가 True이고 `s[4:8] = "code"`가 단어. → 답 `True`.
-
-```python
-def word_break(s, word_dict):
-    words = set(word_dict)
-    dp = [True] + [False] * len(s)  # dp[i] = s[:i]를 단어로 나눌 수 있다
-    for i in range(1, len(s) + 1):
-        for j in range(i):
-            if dp[j] and s[j:i] in words:  # s[:j]는 나뉘고, s[j:i]는 단어다
-                dp[i] = True
-                break
-    return dp[-1]
-```
-
-시간 O(n³): (j, i) 쌍이 n²개이고 `s[j:i]`를 자르는 데 최대 n. 공간 O(n).
-
-#### 합 만들기: Combination Sum IV (377, Medium)
-
-**문제.** 서로 다른 양의 정수 배열 `nums`와 `target`이 주어진다. `nums`의 수를 몇
-번이든 골라 차례로 더해 `target`을 만드는 방법의 수를 반환한다. 순서가 다르면 다른
-방법이다. `nums = [1, 2]`이면 Climbing Stairs와 같은 문제다.
-
-- `nums = [1, 2, 3], target = 4` → `7`. 1+1+1+1, 1+1+2, 1+2+1, 2+1+1, 2+2, 1+3,
-  3+1.
-- `nums = [9], target = 3` → `0`.
-
-**풀이.**
-1. `dp[a]` = 합 a를 만드는 방법 수.
-2. 마지막에 더한 수가 `num`이면, 그 앞까지는 합 `a - num`을 만든 것이다. 그래서 num
-   마다 `dp[a - num]`을 더한다.
-3. Base case: `dp[0] = 1` (아무것도 안 더하는 1가지).
-4. 답은 `dp[target]`.
-
-`nums = [1, 2, 3], target = 4`일 때:
-
-| a | 0 | 1 | 2 | 3 | 4 |
-|---|---|---|---|---|---|
-| 계산 | | dp[0] | dp[1] + dp[0] | dp[2] + dp[1] + dp[0] | dp[3] + dp[2] + dp[1] |
-| dp[a] | 1 | 1 | 2 | 4 | 7 |
-
-```python
-def combination_sum4(nums, target):
-    dp = [1] + [0] * target  # dp[a] = 합 a를 만드는 방법 수; 0은 아무것도 안 쓰는 1가지
-    for a in range(1, target + 1):
-        for num in nums:
-            if num <= a:
-                dp[a] += dp[a - num]  # 마지막에 쓴 수가 num
-    return dp[target]
-```
-
-시간 O(target × len(nums)), 공간 O(target).
 
 #### 한 번씩만: Partition Equal Subset Sum (416, Medium)
 
@@ -1073,7 +941,6 @@ def can_partition(nums):
 한 칸만 움직인다. 오른쪽 아래 칸까지 가는 서로 다른 경로의 수를 반환한다.
 
 - `m = 3, n = 2` → `3`. 오른쪽→아래→아래, 아래→오른쪽→아래, 아래→아래→오른쪽.
-- `m = 3, n = 7` → `28`.
 
 **풀이.**
 1. `dp[r][c]` = (r, c)까지 가는 경로 수.
@@ -1107,7 +974,6 @@ def unique_paths(m, n):
 subsequence인 문자열 중 가장 긴 것의 길이를 반환한다. 없으면 `0`.
 
 - `a = "abcde", b = "ace"` → `3`. `"ace"`.
-- `a = "abc", b = "def"` → `0`.
 
 **풀이.**
 1. `dp[i][j]` = `a`의 앞 i글자와 `b`의 앞 j글자의 LCS 길이.
