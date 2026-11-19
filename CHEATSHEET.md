@@ -29,49 +29,6 @@
    날.
 7. 그다음에야 n을 생각한다. 시간 초과(TLE)가 나면 1단계로 간다.
 
-**출입 기록 (예시 문제)**
-
-`records`는 출입 기록 문자열의 list다. 각 기록은 `"HH:MM 이름 IN"`(들어옴) 또는
-`"HH:MM 이름 OUT"`(나감) 꼴이고, 시각 순서대로 주어지지 않을 수도 있다. 모든 사람은
-들어온 뒤에 나가고, 마지막에는 모두 나가 있다. 사람마다 안에 있던 시간(분)을 모두
-더해, `[이름, 분]` list를 이름 오름차순으로 반환한다.
-
-- `["09:00 kim IN", "09:10 lee IN", "09:40 kim OUT", "10:00 lee OUT"]` →
-  `[["kim", 40], ["lee", 50]]`. kim은 09:00–09:40으로 40분, lee는 09:10–10:00으로
-  50분이다.
-- `["10:00 kim OUT", "09:00 kim IN", "11:00 kim IN", "11:30 kim OUT"]` →
-  `[["kim", 90]]`. 시각 순으로 정렬하면 09:00–10:00(60분)과 11:00–11:30(30분)이다.
-
-```python
-from collections import defaultdict
-
-# 규칙 1: IN이면 들어온 시각을 적어 둔다
-# 규칙 2: OUT이면 (나간 시각 - 들어온 시각)을 그 사람의 합계에 더한다
-# 반환: [이름, 합계 분] list, 이름 A→Z
-
-def parse(record):                     # "09:40 kim OUT" -> (580, "kim", "OUT")
-    clock, name, kind = record.split()
-    h, m = map(int, clock.split(":"))
-    return h * 60 + m, name, kind
-
-def enter(inside, time, name):         # 규칙 1
-    inside[name] = time
-
-def leave(inside, total, time, name):  # 규칙 2
-    total[name] += time - inside.pop(name)
-
-def solution(records):
-    events = sorted(parse(r) for r in records)  # 시각 순; 같으면 tuple의 다음 값 순
-    inside = {}                        # 이름 -> 들어온 시각
-    total = defaultdict(int)           # 이름 -> 합계 분
-    for time, name, kind in events:
-        if kind == "IN":
-            enter(inside, time, name)
-        else:
-            leave(inside, total, time, name)
-    return sorted([name, minutes] for name, minutes in total.items())
-```
-
 Parse와 simulation에 쓰는 파이썬:
 
 ```python
