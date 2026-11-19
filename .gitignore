@@ -1,6 +1,7 @@
 __pycache__/
 *.pyc
 .venv/
+CHEATSHEET.pdf
 
 # private, not published
 code-app/

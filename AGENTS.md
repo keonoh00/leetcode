@@ -21,6 +21,11 @@ There are two folders:
   for a re-solve, or the approach for another approach, like
   `0876_middle_of_the_linked_list_slow_fast.py`.
 
+`CHEATSHEET.md` has a printable copy, `CHEATSHEET.pdf`, which git ignores. The
+post-commit hook in `.githooks/` rebuilds it with `scripts/cheatsheet_pdf.py` after
+every commit that changes `CHEATSHEET.md`, so edit only the `.md`. In a new clone,
+turn the hook on once with `git config core.hooksPath .githooks`.
+
 Keep things simple. Don't add tooling such as progress tracking, timers or prompts
 unless the user asks for it.
 
