@@ -1,7 +1,0 @@
-#!/bin/sh
-# Rebuild CHEATSHEET.pdf whenever a commit changes CHEATSHEET.md.
-# Turn the hook on once per clone with: git config core.hooksPath .githooks
-if git diff-tree --root --no-commit-id --name-only -r HEAD | grep -qx CHEATSHEET.md; then
-  export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
-  uv run --quiet scripts/cheatsheet_pdf.py || echo "post-commit: could not rebuild CHEATSHEET.pdf" >&2
-fi

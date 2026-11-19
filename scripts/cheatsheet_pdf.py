@@ -4,8 +4,7 @@
 # ///
 """Print CHEATSHEET.md to CHEATSHEET.pdf (A4) with headless Chrome.
 
-The post-commit hook in .githooks runs this whenever a commit changes
-CHEATSHEET.md. To run it by hand: uv run scripts/cheatsheet_pdf.py
+Run after every change to CHEATSHEET.md: uv run scripts/cheatsheet_pdf.py
 """
 
 import re
