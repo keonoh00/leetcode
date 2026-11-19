@@ -43,19 +43,38 @@ def solution(records):
 Python for parsing and simulation:
 
 ```python
-h, m = map(int, "09:05".split(":")); minutes = h * 60 + m
-f"{minutes // 60:02d}:{minutes % 60:02d}"          # back to "HH:MM"
+# Time: "HH:MM" to minutes and back
+h, m = map(int, "09:05".split(":"))
+minutes = h * 60 + m
+f"{minutes // 60:02d}:{minutes % 60:02d}"      # "09:05" again
+
+# Dates, when every month has 28 days
 y, mo, d = map(int, "2026.11.22".split("."))
-days = y * 12 * 28 + (mo - 1) * 28 + d              # when every month has 28 days
-from datetime import date, timedelta                 # real calendars
-(date(2026, 11, 22) - date(2026, 1, 1)).days
-date(2026, 11, 22).weekday()                         # Monday = 0
-from collections import defaultdict, Counter, deque
-total = defaultdict(int); groups = defaultdict(list)
-sorted(rows, key=lambda r: (-r[1], r[0]))            # score high to low, then name A to Z
--(-a // b)                                           # ceiling for positive ints
+days = y * 12 * 28 + (mo - 1) * 28 + d
+
+# Dates, on a real calendar
+from datetime import date, timedelta
+(date(2026, 11, 22) - date(2026, 1, 1)).days   # days between them: 325
+date(2026, 11, 22).weekday()                   # Monday = 0, so this Sunday is 6
+date(2026, 11, 22) + timedelta(days=30)        # 30 days later
+
+# Counting and grouping
+from collections import Counter, defaultdict, deque
+total = defaultdict(int)                       # total[key] += x
+groups = defaultdict(list)                     # groups[key].append(x)
+
+# Sorting rows of (name, score)
+sorted(rows, key=lambda r: (-r[1], r[0]))      # score high to low, then name A to Z
+
+# Rounding up, for positive ints
+-(-a // b)                                     # a / b rounded up
+
+# Every pair, order or combination
 from itertools import combinations, permutations, product
-from bisect import bisect_left, bisect_right         # count of x in sorted a: bisect_right(a, x) - bisect_left(a, x)
+
+# Counting in a sorted list
+from bisect import bisect_left, bisect_right
+bisect_right(a, x) - bisect_left(a, x)         # how many times x appears in a
 ```
 
 ---
